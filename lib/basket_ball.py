@@ -182,3 +182,66 @@ def game_dict():
             ]
         }
     }
+
+
+def num_points_per_game(player_check):
+    all_players=game_dict()['home']['players']+game_dict()['away']['players']
+    for player in all_players:
+        if player['name'] == player_check:
+            return player['points_per_game']
+    return None
+
+def player_age(player_check):
+    all_players=game_dict()['home']['players']+game_dict()['away']['players']
+    for player in all_players:
+        if player['name'] == player_check:
+            return player['age']
+    return None
+
+def team_colors(team_name):
+    home = (game_dict()['home'])
+    away = (game_dict()['away'])
+    if(team_name == home['team_name']):
+        return home['colors']
+    else:
+        return away['colors']
+
+def team_names():
+    game = game_dict()
+    team_list = [game['home']['team_name'],game['away']['team_name']]
+    return team_list
+
+def player_numbers(team_name):
+    team_list = game_dict()['home'], game_dict()['away']
+    team_numbers = [
+        player['number'] 
+        for team in team_list 
+        if team_name == team['team_name'] 
+        for player in team['players']
+    ]
+    return team_numbers
+    
+
+def player_stats(entered_player):
+    player_list = game_dict()['home']['players']+game_dict()['away']['players']
+    for player in player_list:
+        if player['name'] == entered_player:
+            return player
+        
+
+def average_rebounds_by_shoe_brand():
+    player_list = game_dict()['home']['players']+game_dict()['away']['players']
+    brand_dict = {}
+    for player in player_list:
+        brand = player['shoe_brand']
+        if(brand in brand_dict):
+            brand_dict[brand].append(player["rebounds_per_game"])
+        else:
+            brand_dict[brand] = ([player["rebounds_per_game"]])
+            # print(brand_dict)
+    for brand in brand_dict:
+        avg = sum(brand_dict[brand]) / len(brand_dict[brand])
+        print(f'{brand}: ', "{0:.2f}".format(avg))
+
+
+average_rebounds_by_shoe_brand()
